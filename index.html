@@ -355,6 +355,36 @@ document.querySelectorAll('.card').forEach(
 // Запускаем первый продукт
 
 selectProduct(0);
+  // Показываем только выбранную банку
+function animate() {
+  requestAnimationFrame(animate);
+
+  cans.forEach((can, index) => {
+    can.visible = index === selected;
+
+    if (can.visible) {
+      can.rotation.y += 0.008;
+    }
+  });
+
+  renderer.render(scene, camera);
+}
+
+// Запуск анимации
+animate();
+
+// Подстройка при изменении размера окна
+window.addEventListener('resize', () => {
+  camera.aspect =
+    container.clientWidth / container.clientHeight;
+
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(
+    container.clientWidth,
+    container.clientHeight
+  );
+});
 
 </body>
 </html>
