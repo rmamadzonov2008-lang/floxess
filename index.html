@@ -307,59 +307,54 @@ const cans=products.map(p=>{
 
 let selected=0;
 
-window.selectProduct=function(i){
- selected=i;
- const p=products[i];
+function selectProduct(index) {
+  selected = index;
 
- document.getElementById('productName').textContent=p.name;
- document.getElementById('productDescription').textContent=p.description;
- document.getElementById('number
-Three.Group | AI Startup Seeking Venture Capital Investors
-Three.Group | AI Startup Seeking Venture Capital Investors
-www.three.group
+  const product = products[index];
 
+  document.getElementById('productName').textContent =
+    product.name;
 
-').textContent=`0${i+1} / 03`;
+  document.getElementById('productDescription').textContent =
+    product.description;
 
- document.querySelectorAll('.buttons button').forEach((b,j)=>{
-  b.classList.toggle('active',i===j);
- });
-};
+  document.getElementById('number').textContent =
+    `0${index + 1} / 03`;
 
-const clock=new THREE.Clock();
-
-function animate(){
- requestAnimationFrame(animate);
- const t=clock.getElapsedTime();
-
- cans.forEach((can,i)=>{
-  const distance=Math.abs(i-selected);
-  const targetX=(i-selected)*2.15;
-  const targetScale=distance===0?1:.7;
-
-  can.position.x+=(targetX-can.position.x)*.045;
-
-  const s=can.scale.x+(targetScale-can.scale.x)*.045;
-  can.scale.setScalar(s);
-
-  can.rotation.y=t*.5+i*1.4;
-  can.position.y=Math.sin(t*1.4+i)*.07;
-  can.rotation.z=Math.sin(t+i)*.025;
- });
-
- renderer.render(scene,camera);
+  document.querySelectorAll('.buttons button').forEach(
+    (button, i) => {
+      button.classList.toggle('active', i === index);
+    }
+  );
 }
 
-animate();
+// Подключаем кнопки 01, 02, 03
 
-window.addEventListener('resize',()=>{
- const w=container.clientWidth;
- const h=container.clientHeight;
- camera.aspect=w/h;
- camera.updateProjectionMatrix();
- renderer.setSize(w,h);
-});
-</script>
+document.querySelectorAll('.buttons button').forEach(
+  (button, index) => {
+    button.addEventListener('click', () => {
+      selectProduct(index);
+    });
+  }
+);
+
+// Подключаем карточки энергетиков
+
+document.querySelectorAll('.card').forEach(
+  (card, index) => {
+    card.addEventListener('click', () => {
+      selectProduct(index);
+
+      document.getElementById('home').scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  }
+);
+
+// Запускаем первый продукт
+
+selectProduct(0);
 
 </body>
 </html>
